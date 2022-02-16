@@ -1,9 +1,11 @@
 import styles from './index.less';
+import { useHistory } from 'umi';
+import { useEffect } from 'react';
 
 export default function IndexPage() {
-  return (
-    <div>
-      <h1 className={styles.title}>Page index</h1>
-    </div>
-  );
+  const history = useHistory();
+  useEffect(() => {
+    history.push('/login');
+  }, []);
+  return <></>;
 }
