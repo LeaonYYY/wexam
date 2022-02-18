@@ -3,7 +3,7 @@ import { useHistory } from 'umi';
 const Index = () => {
   const history = useHistory();
   useEffect(() => {
-    history.push('/student/message');
+    history.push('/admin/mockLogin');
   }, []);
   return <></>;
 };
