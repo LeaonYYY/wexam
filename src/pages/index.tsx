@@ -1,4 +1,3 @@
-import styles from './index.less';
 import { useHistory } from 'umi';
 import { useEffect } from 'react';
 

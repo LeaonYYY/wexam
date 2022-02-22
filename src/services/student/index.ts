@@ -11,3 +11,9 @@ export async function getScore() {
     method: 'GET',
   });
 }
+
+export async function getExam() {
+  return request('/student/exam', {
+    method: 'GET',
+  });
+}

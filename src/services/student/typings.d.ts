@@ -11,9 +11,15 @@ declare namespace API {
     stuNo?: string;
   };
   type ScoreItem = {
-    id: number;
+    id: string;
     name: string;
     time: string;
     score: number;
+  };
+  type ExamItem = {
+    id: number;
+    name: string;
+    time: string;
+    state: number;
   };
 }

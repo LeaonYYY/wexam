@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { nanoid } from 'nanoid';
 
 import styles from './box.less';
 
@@ -17,6 +18,7 @@ const Content: FC<Props> = ({ scoreData }) => {
         if (val.score === -1) {
           return (
             <div
+              key={nanoid()}
               className={styles.content}
               style={{
                 backgroundColor: '#d2d8e8',
@@ -30,6 +32,7 @@ const Content: FC<Props> = ({ scoreData }) => {
         } else {
           return (
             <div
+              key={nanoid()}
               className={styles.content}
               style={{
                 backgroundColor: '#9be4d8',
