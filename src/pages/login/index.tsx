@@ -1,20 +1,46 @@
 import React, { useState } from 'react';
 import { ProFormText, LoginForm, ProFormCheckbox } from '@ant-design/pro-form';
-import { message, Tabs, Space } from 'antd';
+import { message, Tabs } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useHistory } from 'umi';
+import { useDispatch } from 'react-redux';
 
 import styles from './index.less';
 import { login } from '@/services/login';
 import { LoginMessage } from '@/types';
+import { save } from '@/models/user';
 
 const Login = () => {
   const [loginRole, setLoginRole] = useState<API.UserRoles>('student');
   const history = useHistory();
+  const dispatch = useDispatch();
   const handleSubmit = async (values: API.LoginProps) => {
-    const { status } = await login(values);
-    if (status === 200) {
-      history.push('/student');
+    const res = await login({ ...values });
+    if (res.status === 200) {
+      dispatch(
+        save({
+          username: res.username,
+          token: res.token,
+        }),
+      );
+      let path = '';
+      switch (res.role) {
+        case 1:
+          path = '/student';
+          break;
+        case 2:
+          path = '/teacher';
+          break;
+        case 3:
+          path = '/admin';
+          break;
+        default:
+          break;
+      }
+      history.push(path);
+      message.success('登陆成功');
+    } else {
+      message.error('登陆失败');
     }
   };
   return (
