@@ -24,7 +24,7 @@ const InfoShow: FC<API.StuInfo> = (props) => {
             <Space>班级:{props.class}</Space>
           </div>
           <div>
-            <Space>学号:{props.stuNo}</Space>
+            <Space>学号/教工号:{props.stuNo}</Space>
           </div>
         </div>
       </div>
