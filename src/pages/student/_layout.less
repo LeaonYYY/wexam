@@ -1,0 +1,40 @@
+.scoped {
+  height: 100vh;
+  .header {
+    height: 10%;
+    background-color: gray;
+    display: flex;
+    justify-content: space-between;
+    background-image: url('../1.jpg');
+    background-repeat: no-repeat;
+    .leftBox {
+      width: 15%;
+      font-size: 15px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      :nth-child(1) {
+        font-weight: 700;
+        font-size: 20px;
+      }
+      :nth-child(2) {
+        font-size: 10px;
+        font-weight: 350;
+      }
+    }
+    .rightBox {
+      width: 10%;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      :nth-child(2) {
+        color: black;
+      }
+    }
+  }
+  .content {
+    height: 90%;
+    background-color: rgb(242, 242, 242);
+  }
+}
