@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Table } from 'antd';
 
-import { columns } from './constant';
+import { columns } from './constants';
 import { getExamPage } from '@/services/teacher';
 
 interface dataType {

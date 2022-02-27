@@ -5,4 +5,8 @@ export default defineConfig({
     type: 'none',
   },
   fastRefresh: {},
+  publicPath: './',
+  history: {
+    type: 'hash',
+  },
 });

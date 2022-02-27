@@ -35,3 +35,13 @@ export async function getExamPage() {
     method: 'GET',
   });
 }
+export async function getExamInfo() {
+  return request('/teacher/examInfo', {
+    method: 'GET',
+  });
+}
+export async function getExamCheck() {
+  return request('/teacher/checkInfo', {
+    method: 'GET',
+  });
+}

@@ -6,4 +6,11 @@ declare namespace API {
     pageNo: number;
     recent: number;
   };
+  type watchInfo = {
+    key: string;
+    course: string;
+    date: string;
+    time: string;
+    status: number;
+  };
 }
