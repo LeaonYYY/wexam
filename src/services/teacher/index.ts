@@ -1,15 +1,46 @@
 import request from '../';
 
 export async function getInfo() {
-  return request('/teacher/info', {
+  return request('/exam/user/getinfobytoken', {
     method: 'GET',
   });
 }
-export async function getNotice() {
-  return request('/teacher/notice', {
-    method: 'GET',
+export async function getNotice(
+  page: number | undefined,
+  limit: number | undefined,
+) {
+  return request('/exam/announcement/info', {
+    method: 'POST',
+    data: {
+      page,
+      limit: 7,
+    },
   });
 }
+export async function addNotice(title: string, content: string) {
+  return request('/exam/announcement/save', {
+    method: 'POST',
+    data: {
+      title,
+      content,
+    },
+  });
+}
+export async function deleteNotice(id: number) {
+  return request('/exam/announcement/delete', {
+    method: 'POST',
+    data: [id],
+  });
+}
+export async function addClass(clazz: string) {
+  return request('/exam/class/save', {
+    method: 'POST',
+    data: {
+      clazz,
+    },
+  });
+}
+//
 export async function getStudent() {
   return request('/teacher/student_charge', {
     method: 'GET',

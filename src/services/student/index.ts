@@ -17,3 +17,17 @@ export async function getExam() {
     method: 'GET',
   });
 }
+export async function getMsg() {
+  return request('/exam/announcement/info', {
+    method: 'POST',
+    data: {
+      page: 1,
+      limit: 99,
+    },
+  });
+}
+export async function getExamData() {
+  return request('/student/examData', {
+    method: 'GET',
+  });
+}

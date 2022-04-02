@@ -6,5 +6,6 @@ declare namespace API {
   type LoginProps = {
     username: string;
     password: string;
+    autoLogin: boolean;
   };
 }

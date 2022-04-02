@@ -1,14 +1,38 @@
 import React, { FC } from 'react';
 import { nanoid } from 'nanoid';
-import { Button } from 'antd';
-
+import { Button, Modal } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import styles from './index.less';
+import { history } from 'umi';
+
+const { confirm } = Modal;
 
 interface Props {
   examData: API.ExamItem[];
 }
 
 const Content: FC<Props> = ({ examData }) => {
+  const handleExamStart = (id: string) => {
+    confirm({
+      title: '确认开始考试?',
+      icon: <ExclamationCircleOutlined />,
+      content: '只有一次考试机会',
+      okText: '确认',
+      cancelText: '取消',
+      onOk() {
+        console.log(id);
+        history.push({
+          pathname: '/examPage',
+          query: {
+            id: id,
+          },
+        });
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  };
   return (
     <div
       style={{
@@ -16,65 +40,33 @@ const Content: FC<Props> = ({ examData }) => {
       }}
     >
       {examData.map((val) => {
-        switch (val.state) {
-          case -1:
-            return (
-              <div
-                key={nanoid()}
-                className={styles.content}
-                style={{
-                  backgroundColor: '#9be4d8',
+        return (
+          <div
+            key={nanoid()}
+            className={[styles.content, styles[`bg${val.state}`]].join(' ')}
+          >
+            <div>{val.name}</div>
+            <div>{val.time}</div>
+            {val.state === -1 ? (
+              <div>已结束</div>
+            ) : val.state === 0 ? (
+              <div>未开始</div>
+            ) : (
+              <div>正在进行</div>
+            )}
+            <div>
+              <Button
+                disabled={val.state === 1 ? false : true}
+                type="text"
+                onClick={() => {
+                  handleExamStart(val.id);
                 }}
               >
-                <div>{val.name}</div>
-                <div>{val.time}</div>
-                <div>已结束</div>
-                <div>
-                  <Button disabled type={'text'}>
-                    开始考试
-                  </Button>
-                </div>
-              </div>
-            );
-          case 0:
-            return (
-              <div
-                key={nanoid()}
-                className={styles.content}
-                style={{
-                  backgroundColor: '#d2d8e8',
-                }}
-              >
-                <div>{val.name}</div>
-                <div>{val.time}</div>
-                <div>未开始</div>
-                <div>
-                  <Button disabled type={'text'}>
-                    开始考试
-                  </Button>
-                </div>
-              </div>
-            );
-          case 1:
-            return (
-              <div
-                key={nanoid()}
-                className={styles.content}
-                style={{
-                  backgroundColor: 'red',
-                }}
-              >
-                <div>{val.name}</div>
-                <div>{val.time}</div>
-                <div>正在进行</div>
-                <div>
-                  <Button className={styles._button} type={'text'}>
-                    开始考试
-                  </Button>
-                </div>
-              </div>
-            );
-        }
+                开始考试
+              </Button>
+            </div>
+          </div>
+        );
       })}
     </div>
   );

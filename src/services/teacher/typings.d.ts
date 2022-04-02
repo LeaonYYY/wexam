@@ -13,4 +13,9 @@ declare namespace API {
     time: string;
     status: number;
   };
+  type PageInfo = {
+    total?: number;
+    pageSize?: number;
+    current?: number;
+  };
 }

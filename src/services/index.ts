@@ -1,7 +1,10 @@
 import { extend } from 'umi-request';
 
 const request = extend({
-  prefix: 'http://127.0.0.1:4523/mock/643242',
+  prefix:
+    process.env.NODE_ENV === 'development'
+      ? '/api'
+      : 'http://8.141.56.170:9090/',
 });
 request.interceptors.request.use((url, options) => {
   return {

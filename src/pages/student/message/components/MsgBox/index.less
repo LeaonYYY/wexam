@@ -1,0 +1,57 @@
+.scoped {
+  height: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 10px;
+  border-radius: 10px;
+  padding: 1vh 0;
+  border: 2px solid white;
+  box-shadow: 5px 5px 5px rgb(151, 151, 147);
+  .title {
+    width: 100%;
+    display: flex;
+    :first-child {
+      flex: 14;
+      text-align: center;
+    }
+    :last-child {
+      flex: 1;
+      text-align: center;
+      :hover {
+        cursor: pointer;
+      }
+    }
+  }
+  .content {
+    text-indent: 2em;
+    padding: 0 5%;
+    overflow: auto;
+  }
+  .author {
+    width: 100%;
+    padding: 0 5%;
+    text-align: right;
+  }
+}
+.type0 {
+  width: 30%;
+  background-color: #ceeccf;
+}
+.type1 {
+  width: 30%;
+  background-color: #dde2f0;
+}
+.type2 {
+  width: 30%;
+  background-color: #f9e7e1;
+}
+.type3 {
+  width: 45%;
+  background-color: #b1ece0;
+}
+.type4 {
+  width: 45%;
+  background-color: #eaeaef;
+}
