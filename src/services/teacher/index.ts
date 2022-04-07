@@ -37,6 +37,115 @@ export async function addClass(clazz: string) {
     method: 'POST',
     data: {
       clazz,
+      teacherid: localStorage.getItem('userid'),
+    },
+  });
+}
+export async function getSelecList(page: number | undefined) {
+  return request('/exam/multiquestion/list', {
+    method: 'POST',
+    data: {
+      page,
+      limit: 7,
+    },
+  });
+}
+export async function getClass(page: number | undefined) {
+  return request('/exam/class/info', {
+    method: 'POST',
+    data: {
+      page,
+      limit: 7,
+      teacherid: localStorage.getItem('userid'),
+    },
+  });
+}
+export async function addSelectQuestion(body: API.QuestionData_Select) {
+  return request('/exam/multiquestion/save', {
+    method: 'POST',
+    data: {
+      ...body,
+    },
+  });
+}
+export async function deleteSelectQuestion(id: number) {
+  return request('/exam/multiquestion/delete', {
+    method: 'POST',
+    data: [id],
+  });
+}
+export async function deleteClass(id: number) {
+  return request('/exam/class/delete', {
+    method: 'POST',
+    data: [id],
+  });
+}
+export async function getFillList(page: number | undefined) {
+  return request('/exam/fillquestion/list', {
+    method: 'POST',
+    data: {
+      page,
+      limit: 7,
+    },
+  });
+}
+export async function deleteFillQuestion(id: number) {
+  return request('/exam/fillquestion/delete', {
+    method: 'POST',
+    data: [id],
+  });
+}
+export async function addFillQuestion(body: API.QuestionData_Fill) {
+  return request('/exam/fillquestion/save', {
+    method: 'POST',
+    data: {
+      ...body,
+    },
+  });
+}
+export async function getJudgeList(page: number | undefined) {
+  return request('/exam/judgequestion/list', {
+    method: 'POST',
+    data: {
+      page,
+      limit: 7,
+    },
+  });
+}
+export async function deleteJudgeQuestion(id: number) {
+  return request('/exam/judgequestion/delete', {
+    method: 'POST',
+    data: [id],
+  });
+}
+export async function addJudgeQuestion(body: API.QuestionData_Fill) {
+  return request('/exam/judgequestion/save', {
+    method: 'POST',
+    data: {
+      ...body,
+    },
+  });
+}
+export async function getMultiList(page: number | undefined) {
+  return request('/exam/subjectivequestion/list', {
+    method: 'POST',
+    data: {
+      page,
+      limit: 7,
+    },
+  });
+}
+export async function deleteMultiQuestion(id: number) {
+  return request('/exam/subjectivequestion/delete', {
+    method: 'POST',
+    data: [id],
+  });
+}
+export async function addMultiQuestion(body: API.QuestionData_Fill) {
+  return request('/exam/subjectivequestion/save', {
+    method: 'POST',
+    data: {
+      ...body,
     },
   });
 }
@@ -46,21 +155,13 @@ export async function getStudent() {
     method: 'GET',
   });
 }
-export async function getClass() {
-  return request('/teacher/class', {
-    method: 'GET',
-  });
-}
+
 export async function getScore() {
   return request('/teacher/score', {
     method: 'GET',
   });
 }
-export async function getExamBase() {
-  return request('/teacher/examBase', {
-    method: 'GET',
-  });
-}
+
 export async function getExamPage() {
   return request('/teacher/examPage', {
     method: 'GET',

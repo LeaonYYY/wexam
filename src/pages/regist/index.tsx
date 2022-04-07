@@ -129,7 +129,7 @@ const Regist = () => {
               },
             ]}
           />
-          <ProFormSelect
+          {/* <ProFormSelect
             name={'clazzid'}
             options={classList.map((item) => {
               return {
@@ -138,7 +138,7 @@ const Regist = () => {
               };
             })}
             placeholder={'请选择加入的班级'}
-          />
+          /> */}
         </LoginForm>
         <div className={styles.footer}>
           已有账号？

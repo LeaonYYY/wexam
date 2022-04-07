@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 
 import styles from './_layout.less';
 import { logout } from '@/models/user';
+import { getInfo } from '@/services/teacher';
 
 const { Sider, Content, Header } = _Layout;
 const Layout: FC<any> = ({ children }) => {
@@ -15,7 +16,12 @@ const Layout: FC<any> = ({ children }) => {
   const [selectKey, setSelectKey] = useState('');
   useEffect(() => {
     setSelectKey(location.pathname);
+    setInfo();
   }, [location]);
+  const setInfo = async () => {
+    const res = await getInfo();
+    localStorage.setItem('userid', res.info.id);
+  };
   const handleMenuSelect = ({ key }: any) => {
     history.push(key);
   };

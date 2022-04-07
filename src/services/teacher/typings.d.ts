@@ -18,4 +18,20 @@ declare namespace API {
     pageSize?: number;
     current?: number;
   };
+  type QuestionData_Select = {
+    question: string;
+    answera: string;
+    answerb: string;
+    answerc: string;
+    answerd: string;
+    score: string;
+    rightanswer: string;
+  };
+  type QuestionData_Fill = {
+    question: string;
+    answer: string;
+    score: string;
+    level: number;
+    subject: string;
+  };
 }

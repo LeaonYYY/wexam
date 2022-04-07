@@ -1,33 +1,18 @@
-import { Button } from 'antd';
-
-export const columns = [
+export const DATA_SOURCE = [
   {
-    title: '题库编号',
-    dataIndex: 'key',
+    key: '1',
+    type: '选择题',
   },
   {
-    title: '题目类型',
-    dataIndex: 'type',
+    key: '2',
+    type: '填空题',
   },
   {
-    title: '课程',
-    dataIndex: 'course',
+    key: '3',
+    type: '判断题',
   },
   {
-    title: '题目数量',
-    dataIndex: 'num',
-  },
-  {
-    title: '操作',
-    key: 'options',
-    render: (text: any) => {
-      return (
-        <div>
-          <Button>修改</Button>
-          <Button>删除</Button>
-          <Button>查看</Button>
-        </div>
-      );
-    },
+    key: '4',
+    type: '主观题',
   },
 ];

@@ -9,3 +9,9 @@ export async function login(body: API.LoginProps) {
     },
   });
 }
+
+export async function refreshToken() {
+  return request('/exam/user/refresh', {
+    method: 'POST',
+  });
+}
