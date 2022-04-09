@@ -11,7 +11,7 @@ const Info = () => {
   const editUsername = (val: string) => {};
   const handleGetInfo = async () => {
     const res = await getInfo();
-    setUserInfos(res.data);
+    setUserInfos(res.info);
   };
 
   return (

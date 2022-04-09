@@ -17,10 +17,10 @@ declare namespace API {
     score: number;
   };
   type ExamItem = {
-    id: string;
-    name: string;
-    time: string;
-    state: number;
+    id: number;
+    source: string;
+    examdate: string;
+    status: string;
   };
   type MsgItem = {
     id: string;

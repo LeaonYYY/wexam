@@ -4,7 +4,7 @@ import { history, useModel } from 'umi';
 import styles from './index.less';
 import Sider from '@/pages/examPage/components/Sider';
 import Content from '@/pages/examPage/components/Content';
-import { getExamData } from '@/services/student';
+import {} from '@/services/student';
 
 const ExamPage: React.FC = () => {
   const { getData, data, siderData } = useModel('examPage');

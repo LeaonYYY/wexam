@@ -149,6 +149,32 @@ export async function addMultiQuestion(body: API.QuestionData_Fill) {
     },
   });
 }
+export async function getPaperList(page: number | undefined) {
+  return request('/exam/papermanage/list', {
+    method: 'POST',
+    data: {
+      page,
+      limit: 7,
+    },
+  });
+}
+export async function getExams(page: number | undefined) {
+  return request('/exam/exammanage/info', {
+    method: 'POST',
+    data: {
+      page,
+      limit: 7,
+    },
+  });
+}
+export async function getExamPaerDetail(id: number) {
+  return request('/exam/papermanage/paperselect', {
+    method: 'POST',
+    data: {
+      paperid: id,
+    },
+  });
+}
 //
 export async function getStudent() {
   return request('/teacher/student_charge', {
@@ -162,11 +188,6 @@ export async function getScore() {
   });
 }
 
-export async function getExamPage() {
-  return request('/teacher/examPage', {
-    method: 'GET',
-  });
-}
 export async function getExamInfo() {
   return request('/teacher/examInfo', {
     method: 'GET',

@@ -12,7 +12,7 @@ interface Props {
 }
 
 const Content: FC<Props> = ({ examData }) => {
-  const handleExamStart = (id: string) => {
+  const handleExamStart = (id: any) => {
     confirm({
       title: '确认开始考试?',
       icon: <ExclamationCircleOutlined />,
@@ -43,20 +43,22 @@ const Content: FC<Props> = ({ examData }) => {
         return (
           <div
             key={nanoid()}
-            className={[styles.content, styles[`bg${val.state}`]].join(' ')}
+            className={[styles.content, styles.bg - 1].join(' ')}
+            // className={[styles.content, styles[`bg${val.state}`]].join(' ')}
           >
-            <div>{val.name}</div>
-            <div>{val.time}</div>
-            {val.state === -1 ? (
+            <div>{val.source}</div>
+            <div>{val.examdate}</div>
+            <div>{val.status}</div>
+            {/* {val.state === -1 ? (
               <div>已结束</div>
             ) : val.state === 0 ? (
               <div>未开始</div>
             ) : (
               <div>正在进行</div>
-            )}
+            )} */}
             <div>
               <Button
-                disabled={val.state === 1 ? false : true}
+                // disabled={val.state === 1 ? false : true}
                 type="text"
                 onClick={() => {
                   handleExamStart(val.id);

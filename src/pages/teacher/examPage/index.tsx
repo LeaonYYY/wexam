@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Table } from 'antd';
 
 import { columns } from './constants';
-import { getExamPage } from '@/services/teacher';
+import { getPaperList } from '@/services/teacher';
 
 interface dataType {
   key: string;
@@ -11,16 +11,14 @@ interface dataType {
   time: string;
 }
 
-const Notice = () => {
+const ExamPaper = () => {
   const [data, setData] = useState<dataType[]>([]);
   useEffect(() => {
-    getData();
+    fetchData(1);
   }, []);
-  const getData = async () => {
-    const res = await getExamPage();
-    if (res.status === 200) {
-      setData(res.data);
-    }
+  const fetchData = async (page: number | undefined) => {
+    const res = await getPaperList(page);
+    console.log(res);
   };
   return (
     <div>
@@ -28,4 +26,4 @@ const Notice = () => {
     </div>
   );
 };
-export default Notice;
+export default ExamPaper;

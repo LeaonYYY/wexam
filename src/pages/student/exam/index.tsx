@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { getExam } from '@/services/student';
+import { getExamsList } from '@/services/student';
 import styles from './index.less';
 import Header from '@/pages/student/exam/components/Header';
 import Content from '@/pages/student/exam/components/Content';
@@ -11,10 +11,9 @@ const Exam = () => {
     getData();
   }, []);
   const getData = async () => {
-    const res = await getExam();
-    if (res.status === 200) {
-      setExamData(res.data);
-    }
+    const res = await getExamsList();
+    console.log(res);
+    setExamData(res.examManage.records);
   };
   return (
     <div className={styles.scoped}>

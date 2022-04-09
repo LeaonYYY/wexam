@@ -49,7 +49,7 @@ const Login = () => {
       history.push(path);
       message.success('登陆成功');
     } else {
-      message.error('登陆失败');
+      message.error(res.msg);
     }
   };
   return (

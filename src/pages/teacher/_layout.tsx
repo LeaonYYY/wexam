@@ -69,7 +69,7 @@ const Layout: FC<any> = ({ children }) => {
             <Menu.Item key="/teacher/score">成绩管理</Menu.Item>
             <Menu.Item key="/teacher/examBase">题库管理</Menu.Item>
             <Menu.Item key="/teacher/examPage">试卷管理</Menu.Item>
-            <Menu.Item key="/teacher/examWatch">线上监考</Menu.Item>
+            <Menu.Item key="/teacher/examWatch">考试安排</Menu.Item>
             <Menu.Item key="/teacher/check">线上批卷</Menu.Item>
             <Menu.Item key="/teacher/mine">我的</Menu.Item>
           </Menu>
