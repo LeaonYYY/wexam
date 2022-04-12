@@ -9,11 +9,12 @@ import {} from '@/services/student';
 const ExamPage: React.FC = () => {
   const { getData, data, siderData } = useModel('examPage');
   useEffect(() => {
-    const { query = {} } = history.location;
-    fetchData();
+    const { query } = history.location;
+    //@ts-ignore
+    fetchData(query.id);
   }, []);
-  const fetchData = async () => {
-    await getData();
+  const fetchData = async (id: number) => {
+    await getData(id);
   };
   return (
     <div className={styles.scoped}>

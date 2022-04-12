@@ -21,6 +21,7 @@ declare namespace API {
     source: string;
     examdate: string;
     status: string;
+    paperid: number;
   };
   type MsgItem = {
     id: string;

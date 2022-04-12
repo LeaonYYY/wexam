@@ -12,7 +12,6 @@ const Exam = () => {
   }, []);
   const getData = async () => {
     const res = await getExamsList();
-    console.log(res);
     setExamData(res.examManage.records);
   };
   return (

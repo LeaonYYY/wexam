@@ -52,3 +52,11 @@ export async function getExamsList() {
     },
   });
 }
+export async function getExamPaperDetail(id: number) {
+  return request('/exam/paper/paperselect', {
+    method: 'POST',
+    data: {
+      paperid: id,
+    },
+  });
+}

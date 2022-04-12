@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, message, Input, Popconfirm } from 'antd';
+import { Table, Button, Modal, message, Input, Popconfirm, Select } from 'antd';
 
-import { getNotice, addNotice, deleteNotice } from '@/services/teacher';
+import {
+  getNotice,
+  addNotice,
+  deleteNotice,
+  getAllClassList,
+} from '@/services/teacher';
 
 const { TextArea } = Input;
 interface dataType {
@@ -11,7 +16,10 @@ interface dataType {
   author: string;
   updateTime: string;
 }
-
+interface ClassList {
+  id: number;
+  clazz: string;
+}
 const Notice = () => {
   const [data, setData] = useState<dataType[]>([]);
   const [isModelShow, setIsModelShow] = useState(false);
@@ -23,16 +31,21 @@ const Notice = () => {
   const [infoTitle, setInfoTitle] = useState('');
   const [infoContent, setInfoContent] = useState('');
   const [loading, setLoading] = useState(false);
+  const [classList, setClassList] = useState<ClassList[]>([]);
+  const [selectedClasses, setSelectedClasses] = useState<string[]>([]);
   useEffect(() => {
     fetchData(1, pageInfo.pageSize);
+    fetchClassList();
   }, []);
+  const fetchClassList = async () => {
+    const res = await getAllClassList();
+    setClassList(res.records);
+  };
   const fetchData = async (
     page: number | undefined,
     limit: number | undefined,
   ) => {
     const res = await getNotice(page, limit);
-    console.log(res);
-
     if (res.code === 0) {
       setData(res.announcement.records);
       setPageInfo({
@@ -43,11 +56,17 @@ const Notice = () => {
   };
   const handleNoticeAdd = async () => {
     setLoading(true);
-    const res = await addNotice(infoTitle.replace(' ', ''), infoContent.trim());
+    const res = await addNotice(
+      infoTitle.replace(' ', ''),
+      infoContent.trim(),
+      selectedClasses,
+    );
     fetchData(1, pageInfo.pageSize);
+    message.success('发送成功');
     setIsModelShow(false);
     setInfoTitle('');
     setInfoContent('');
+    setSelectedClasses([]);
     setLoading(false);
   };
   const handleNoticeAddCancel = () => {
@@ -87,6 +106,9 @@ const Notice = () => {
   };
   const showTotal = (total: number) => {
     return `Total: ${total} items`;
+  };
+  const handleClassSelectChange = (values: string[]) => {
+    setSelectedClasses(values);
   };
   const columns = [
     {
@@ -181,6 +203,17 @@ const Notice = () => {
           value={infoContent}
           onChange={handleContentChange}
         />
+        <Select
+          mode="multiple"
+          style={{ width: '100%' }}
+          placeholder="请选择发送的班级，置空则为广播"
+          onChange={handleClassSelectChange}
+        >
+          {classList.map((value: ClassList) => {
+            //@ts-ignore
+            return <Option key={value.id}>{value.clazz}</Option>;
+          })}
+        </Select>
       </Modal>
     </div>
   );

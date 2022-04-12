@@ -61,7 +61,7 @@ const Content: FC<Props> = ({ examData }) => {
                 // disabled={val.state === 1 ? false : true}
                 type="text"
                 onClick={() => {
-                  handleExamStart(val.id);
+                  handleExamStart(val.paperid);
                 }}
               >
                 开始考试

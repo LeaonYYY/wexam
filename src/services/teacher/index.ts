@@ -17,12 +17,15 @@ export async function getNotice(
     },
   });
 }
-export async function addNotice(title: string, content: string) {
+export async function addNotice(title: string, content: string, ids: string[]) {
   return request('/exam/announcement/save', {
     method: 'POST',
     data: {
       title,
       content,
+      ids: ids.map((item: string) => {
+        return parseInt(item);
+      }),
     },
   });
 }
@@ -150,7 +153,7 @@ export async function addMultiQuestion(body: API.QuestionData_Fill) {
   });
 }
 export async function getPaperList(page: number | undefined) {
-  return request('/exam/papermanage/list', {
+  return request('/exam/paper/list', {
     method: 'POST',
     data: {
       page,
@@ -168,11 +171,35 @@ export async function getExams(page: number | undefined) {
   });
 }
 export async function getExamPaerDetail(id: number) {
-  return request('/exam/papermanage/paperselect', {
+  return request('/exam/paper/paperselect', {
     method: 'POST',
     data: {
       paperid: id,
     },
+  });
+}
+export async function addExamPaper(body: API.ExamPaperProps) {
+  return request('/exam/paper/save', {
+    method: 'POST',
+    data: {
+      ...body,
+    },
+  });
+}
+export async function getAllClassList() {
+  return request('/exam/class/info', {
+    method: 'POSt',
+    data: {
+      page: 1,
+      limit: 99,
+      teacherid: localStorage.getItem('userid'),
+    },
+  });
+}
+export async function deleteExamPaper(id: number) {
+  return request('/exam/paper/delete', {
+    method: 'POST',
+    data: [id],
   });
 }
 //

@@ -1,4 +1,4 @@
-import {} from '@/services/student';
+import { getExamPaperDetail } from '@/services/student';
 import { useCallback, useEffect, useState } from 'react';
 
 export default () => {
@@ -27,12 +27,9 @@ export default () => {
     });
     setSiderData(temp);
   }, [data]);
-  const getData = async () => {
-    // const res = await getExamData();
-    // console.log(res);
-    // if (res.status === 200) {
-    //   setData(res.data);
-    // }
+  const getData = async (id: number) => {
+    const res = await getExamPaperDetail(id);
+    console.log(res);
   };
   return {
     data,

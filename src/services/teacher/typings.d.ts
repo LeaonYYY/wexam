@@ -34,4 +34,8 @@ declare namespace API {
     level: number;
     subject: string;
   };
+  type ExamPaperProps = {
+    name: string;
+    major: string;
+  };
 }

@@ -79,6 +79,7 @@ const classes = () => {
     <div>
       <div>
         <ModalForm
+          title="加入班级"
           modalProps={{
             destroyOnClose: true,
           }}
