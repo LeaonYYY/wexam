@@ -37,5 +37,6 @@ declare namespace API {
   type ExamPaperProps = {
     name: string;
     major: string;
+    totalTime: string;
   };
 }

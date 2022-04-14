@@ -12,7 +12,7 @@ const Message = () => {
   const getData = async () => {
     const res = await getMsg();
     if (res.code === 0) {
-      setData(res.announcement.records);
+      setData(res?.acc?.records || []);
     }
   };
   return (

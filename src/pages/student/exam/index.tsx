@@ -12,7 +12,7 @@ const Exam = () => {
   }, []);
   const getData = async () => {
     const res = await getExamsList();
-    setExamData(res.examManage.records);
+    setExamData(res?.exam?.records || []);
   };
   return (
     <div className={styles.scoped}>

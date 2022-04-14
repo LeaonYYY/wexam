@@ -1,9 +1,9 @@
 import request from '../';
 
 export async function getMsg() {
-  return request('/exam/announcement/info', {
-    method: 'POST',
-    data: {
+  return request('/exam/announcement/getmyann', {
+    method: 'GET',
+    params: {
       page: 1,
       limit: 99,
     },
@@ -44,9 +44,9 @@ export async function studentQuitClass(id: number) {
   });
 }
 export async function getExamsList() {
-  return request('/exam/exammanage/info', {
-    method: 'POST',
-    data: {
+  return request('/exam/exammanage/getmyexam', {
+    method: 'get',
+    params: {
       page: 1,
       limit: 99,
     },
@@ -57,6 +57,22 @@ export async function getExamPaperDetail(id: number) {
     method: 'POST',
     data: {
       paperid: id,
+    },
+  });
+}
+export async function submitQuestionAnswer(
+  paperid: string,
+  questionType: number,
+  questionid: number,
+  userAnswer: string,
+) {
+  return request('/exam/studentanswer/questionsubmit', {
+    method: 'POST',
+    data: {
+      paperid: parseInt(paperid),
+      questionType,
+      questionid,
+      userAnswer,
     },
   });
 }

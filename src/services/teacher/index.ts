@@ -183,6 +183,7 @@ export async function addExamPaper(body: API.ExamPaperProps) {
     method: 'POST',
     data: {
       ...body,
+      totalTime: parseInt(body.totalTime),
     },
   });
 }
@@ -202,26 +203,92 @@ export async function deleteExamPaper(id: number) {
     data: [id],
   });
 }
-//
-export async function getStudent() {
-  return request('/teacher/student_charge', {
-    method: 'GET',
+export async function getAllSelect() {
+  return request('/exam/multiquestion/list', {
+    method: 'POST',
+    data: {
+      page: 1,
+      limit: 99,
+    },
   });
 }
-
-export async function getScore() {
-  return request('/teacher/score', {
-    method: 'GET',
+export async function getAllFill() {
+  return request('/exam/fillquestion/list', {
+    method: 'POST',
+    data: {
+      page: 1,
+      limit: 99,
+    },
   });
 }
-
-export async function getExamInfo() {
-  return request('/teacher/examInfo', {
-    method: 'GET',
+export async function getAllJudge() {
+  return request('/exam/judgequestion/list', {
+    method: 'POST',
+    data: {
+      page: 1,
+      limit: 99,
+    },
   });
 }
-export async function getExamCheck() {
-  return request('/teacher/checkInfo', {
-    method: 'GET',
+export async function getAllMulti() {
+  return request('/exam/subjectivequestion/list', {
+    method: 'POST',
+    data: {
+      page: 1,
+      limit: 99,
+    },
+  });
+}
+export async function addQuetionForPaper(
+  body: { paperid: number; questionid: number; questiontype: number }[],
+) {
+  return request('/exam/paper/addQues', {
+    method: 'POST',
+    data: body,
+  });
+}
+export async function deleteExam(id: number) {
+  return request('/exam/exammanage/delete', {
+    method: 'POST',
+    data: [id],
+  });
+}
+export async function getAllPaper() {
+  return request('/exam/paper/list', {
+    method: 'POST',
+    data: {
+      page: 1,
+      limit: 99,
+    },
+  });
+}
+export async function addExam(body: {
+  source: string;
+  examdate: string;
+  paperid: number;
+  ids: number;
+}) {
+  return request('/exam/exammanage/save', {
+    method: 'POST',
+    data: {
+      ...body,
+      ids: [body.ids],
+    },
+  });
+}
+export async function deleteQuestionFromPaper(
+  paperid: number,
+  questionid: number,
+  questiontype: number,
+) {
+  return request('/exam/paper/deleteQues', {
+    method: 'POST',
+    data: [
+      {
+        paperid,
+        questionid,
+        questiontype,
+      },
+    ],
   });
 }

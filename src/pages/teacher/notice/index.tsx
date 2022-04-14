@@ -131,9 +131,18 @@ const Notice = () => {
     },
     {
       title: '发布时间',
-      dataIndex: 'updateTime',
       width: '20%',
       align: 'center',
+      render: (text: dataType) => {
+        const date = new Date(8 * 60 * 60 * 1000 + text.updateTime);
+        return (
+          <div>
+            {`${date.getFullYear()}-${
+              date.getMonth() + 1
+            }-${date.getDate()}  ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`}
+          </div>
+        );
+      },
     },
     {
       title: '操作',

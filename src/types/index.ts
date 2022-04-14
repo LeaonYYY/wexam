@@ -7,3 +7,25 @@ export interface pageInfo {
   current?: number;
   total?: number;
 }
+export interface SelectQuestion {
+  id: number;
+  question: string;
+  answera: string;
+  answerb: string;
+  answerc: string;
+  answerd: string;
+  rightanswer: string;
+  score: number;
+}
+export interface ElseQuestion {
+  id: number;
+  question: string;
+  answer: string;
+  score: number;
+}
+export interface PaperDetail {
+  fillQuestions: ElseQuestion[];
+  judgeQuestions: ElseQuestion[];
+  multiQuestions: SelectQuestion[];
+  subjectiveQuestions: ElseQuestion[];
+}

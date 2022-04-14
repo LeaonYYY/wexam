@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './index.less';
 
-import { getExamCheck } from '@/services/teacher';
 import Header from './components/Header';
 import Content from './components/Content';
 
@@ -10,12 +9,7 @@ const Score = () => {
   useEffect(() => {
     getData();
   }, []);
-  const getData = async () => {
-    const res = await getExamCheck();
-    if (res.status === 200) {
-      setExams(res.data);
-    }
-  };
+  const getData = async () => {};
   return (
     <div className={styles.scoped}>
       <div className={styles.box}>
