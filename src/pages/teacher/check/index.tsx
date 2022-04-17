@@ -115,6 +115,10 @@ const Score = () => {
       </div>
       <Modal
         title={'试卷批改'}
+        style={{
+          height: '60%',
+          width: '60%',
+        }}
         onCancel={() => {
           setIsModalVisible(false);
         }}
@@ -130,11 +134,12 @@ const Score = () => {
                   display: 'flex',
                   justifyContent: 'space-between',
                   padding: '0 10%',
+                  marginBottom: '10%',
                 }}
               >
                 <div>
                   <div>
-                    <p>{item.questionName}</p>
+                    <p> 题目：{item.questionName}</p>
                   </div>
                   <div>题目分值：{item.questionScore}</div>
                   <div>正确答案：{item.rightAnswer}</div>
@@ -154,7 +159,12 @@ const Score = () => {
             );
           })}
         </div>
-        <div>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
           <Button onClick={handleSubmit}>确定</Button>
         </div>
       </Modal>

@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, message, Input, Popconfirm, Select } from 'antd';
+import {
+  Table,
+  Button,
+  Modal,
+  message,
+  Input,
+  Popconfirm,
+  Select,
+  Popover,
+} from 'antd';
 import styles from './index.less';
 import {
   getNotice,
@@ -124,10 +133,22 @@ const Notice = () => {
       align: 'center',
     },
     {
-      title: '发布者',
-      dataIndex: 'author',
-      width: '20%',
+      title: '消息内容',
       align: 'center',
+      render: (record: dataType) => {
+        return (
+          <Popover
+            title="问题"
+            content={
+              <div>
+                <p>{record.content}</p>
+              </div>
+            }
+          >
+            <a>查看</a>
+          </Popover>
+        );
+      },
     },
     {
       title: '发布时间',

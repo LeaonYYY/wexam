@@ -6,6 +6,7 @@ import {
   addExam,
   addExamPaper,
   addQuetionForPaper,
+  autoAddPaper,
   deleteExamPaper,
   deleteQuestionFromPaper,
   getAllClassList,
@@ -76,6 +77,14 @@ const ExamPaper = () => {
     }
     return true;
   };
+  const handleAutoAddPaper = async (values: API.ExamPaperProps) => {
+    const res = await autoAddPaper(values);
+    if (res.code === 0) {
+      message.success('添加成功');
+      fetchData(1);
+    }
+    return true;
+  };
   const handleDeletePaper = async (id: number) => {
     const res = await deleteExamPaper(id);
     if (res.code === 0) {
@@ -83,6 +92,7 @@ const ExamPaper = () => {
       fetchData(pageInfo.current);
     }
   };
+
   const handleAddExam = async (values: any) => {
     const res = await addExam(values);
     if (res.code === 0) {
@@ -173,6 +183,45 @@ const ExamPaper = () => {
             title="添加试卷"
             trigger={<Button>添加试卷</Button>}
             onFinish={handleAddPaper}
+          >
+            <ProFormText
+              name={'name'}
+              placeholder={'请输入试卷名'}
+              rules={[
+                {
+                  required: true,
+                  message: '不能为空',
+                },
+              ]}
+            ></ProFormText>
+            <ProFormText
+              name={'major'}
+              placeholder={'请输入试卷课程'}
+              rules={[
+                {
+                  required: true,
+                  message: '不能为空',
+                },
+              ]}
+            ></ProFormText>
+            <ProFormText
+              name={'totalTime'}
+              placeholder={'试卷限定完成时长（分钟）'}
+              rules={[
+                {
+                  required: true,
+                  message: '不能为空',
+                },
+              ]}
+            ></ProFormText>
+          </ModalForm>
+          <ModalForm
+            modalProps={{
+              destroyOnClose: true,
+            }}
+            title="自动组卷"
+            trigger={<Button>自动组卷</Button>}
+            onFinish={handleAutoAddPaper}
           >
             <ProFormText
               name={'name'}

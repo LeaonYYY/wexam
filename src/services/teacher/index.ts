@@ -325,3 +325,27 @@ export async function saveScore(userid: number, examid: number, score: number) {
     },
   });
 }
+export async function autoAddPaper(body: API.ExamPaperProps) {
+  return request('/exam/paper/autoGetPaper', {
+    method: 'POST',
+    data: {
+      ...body,
+      totalTime: parseInt(body.totalTime),
+    },
+  });
+}
+export async function getLogs(page: number | undefined) {
+  return request('/exam/weblog/list', {
+    method: 'GET',
+    params: {
+      page,
+      limit: 7,
+    },
+  });
+}
+export async function deleteLog(id: number) {
+  return request('/exam/weblog/delete', {
+    method: 'POST',
+    data: [id],
+  });
+}
