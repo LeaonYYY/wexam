@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, message, Input, Popconfirm, Select } from 'antd';
-
+import styles from './index.less';
 import {
   getNotice,
   addNotice,
@@ -170,60 +170,62 @@ const Notice = () => {
     },
   ];
   return (
-    <div>
-      <div>
-        <Button
-          onClick={() => {
-            setIsModelShow(true);
+    <div className={styles.scoped}>
+      <div className={styles.showBox}>
+        <div>
+          <Button
+            onClick={() => {
+              setIsModelShow(true);
+            }}
+          >
+            新增通知
+          </Button>
+        </div>
+        <Table
+          // @ts-ignore
+          columns={columns}
+          dataSource={data}
+          loading={loading}
+          pagination={{
+            defaultPageSize: 7,
+            current: pageInfo.current,
+            total: pageInfo.total,
+            onChange: handlePageChange,
+            showTotal: showTotal,
           }}
+        />
+        <Modal
+          title={'发布通知'}
+          onOk={handleNoticeAdd}
+          onCancel={handleNoticeAddCancel}
+          visible={isModelShow}
+          okText={'发布'}
+          cancelText={'取消'}
         >
-          新增通知
-        </Button>
+          <Input
+            placeholder="标题"
+            value={infoTitle}
+            onChange={handleTitleChange}
+          />
+          <TextArea
+            rows={4}
+            placeholder={'请输入通知内容'}
+            value={infoContent}
+            onChange={handleContentChange}
+          />
+          <Select
+            mode="multiple"
+            style={{ width: '100%' }}
+            placeholder="请选择发送的班级，置空则为广播"
+            onChange={handleClassSelectChange}
+          >
+            {classList.map((value: ClassList) => {
+              //@ts-ignore
+              return <Option key={value.id}>{value.clazz}</Option>;
+            })}
+          </Select>
+        </Modal>
       </div>
-      <Table
-        // @ts-ignore
-        columns={columns}
-        dataSource={data}
-        loading={loading}
-        pagination={{
-          defaultPageSize: 7,
-          current: pageInfo.current,
-          total: pageInfo.total,
-          onChange: handlePageChange,
-          showTotal: showTotal,
-        }}
-      />
-      <Modal
-        title={'发布通知'}
-        onOk={handleNoticeAdd}
-        onCancel={handleNoticeAddCancel}
-        visible={isModelShow}
-        okText={'发布'}
-        cancelText={'取消'}
-      >
-        <Input
-          placeholder="标题"
-          value={infoTitle}
-          onChange={handleTitleChange}
-        />
-        <TextArea
-          rows={4}
-          placeholder={'请输入通知内容'}
-          value={infoContent}
-          onChange={handleContentChange}
-        />
-        <Select
-          mode="multiple"
-          style={{ width: '100%' }}
-          placeholder="请选择发送的班级，置空则为广播"
-          onChange={handleClassSelectChange}
-        >
-          {classList.map((value: ClassList) => {
-            //@ts-ignore
-            return <Option key={value.id}>{value.clazz}</Option>;
-          })}
-        </Select>
-      </Modal>
     </div>
   );
 };

@@ -3,6 +3,7 @@ import { ModalForm, ProFormText } from '@ant-design/pro-form';
 import { Button, message, Table, Popconfirm } from 'antd';
 import React, { useEffect, useState } from 'react';
 
+import styles from './index.less';
 interface DataType {
   clazz: string;
   id: number;
@@ -76,29 +77,31 @@ const classes = () => {
     },
   ];
   return (
-    <div>
-      <div>
-        <ModalForm
-          title="加入班级"
-          modalProps={{
-            destroyOnClose: true,
-          }}
-          trigger={<Button>加入班级</Button>}
-          onFinish={handleJoinClass}
-        >
-          <ProFormText
-            name={'classid'}
-            placeholder="请输入班级ID"
-            rules={[
-              {
-                required: true,
-                message: '不能为空',
-              },
-            ]}
-          ></ProFormText>
-        </ModalForm>
+    <div className={styles.scoped}>
+      <div className={styles.showBox}>
+        <div className={styles.btnBar}>
+          <ModalForm
+            title="加入班级"
+            modalProps={{
+              destroyOnClose: true,
+            }}
+            trigger={<Button>加入班级</Button>}
+            onFinish={handleJoinClass}
+          >
+            <ProFormText
+              name={'classid'}
+              placeholder="请输入班级ID"
+              rules={[
+                {
+                  required: true,
+                  message: '不能为空',
+                },
+              ]}
+            ></ProFormText>
+          </ModalForm>
+        </div>
+        <Table columns={columns} dataSource={data}></Table>
       </div>
-      <Table columns={columns} dataSource={data}></Table>
     </div>
   );
 };

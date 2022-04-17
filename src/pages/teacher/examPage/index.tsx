@@ -20,6 +20,7 @@ import {
 import { ElseQuestion, pageInfo, PaperDetail, SelectQuestion } from '@/types';
 import Select from '@/components/Select';
 import Fill from '@/components/Fill';
+import styles from './index.less';
 
 interface dataType {
   id: number;
@@ -162,375 +163,275 @@ const ExamPaper = () => {
   ];
 
   return (
-    <div>
-      <div>
-        <ModalForm
-          modalProps={{
-            destroyOnClose: true,
-          }}
-          title="添加试卷"
-          trigger={<Button>添加试卷</Button>}
-          onFinish={handleAddPaper}
-        >
-          <ProFormText
-            name={'name'}
-            placeholder={'请输入试卷名'}
-            rules={[
-              {
-                required: true,
-                message: '不能为空',
-              },
-            ]}
-          ></ProFormText>
-          <ProFormText
-            name={'major'}
-            placeholder={'请输入试卷课程'}
-            rules={[
-              {
-                required: true,
-                message: '不能为空',
-              },
-            ]}
-          ></ProFormText>
-          <ProFormText
-            name={'totalTime'}
-            placeholder={'试卷限定完成时长（分钟）'}
-            rules={[
-              {
-                required: true,
-                message: '不能为空',
-              },
-            ]}
-          ></ProFormText>
-        </ModalForm>
-        <ModalForm
-          trigger={<Button>发布考试</Button>}
-          title="发布考试"
-          modalProps={{
-            destroyOnClose: true,
-          }}
-          onFinish={handleAddExam}
-        >
-          <ProFormText
-            name={'source'}
-            placeholder={'课程名称'}
-            rules={[
-              {
-                required: true,
-                message: '不能为空',
-              },
-            ]}
-          ></ProFormText>
-
-          <ProFormText
-            name={'examdate'}
-            placeholder={'考试日期 格式如:2022-1-1'}
-            rules={[
-              {
-                required: true,
-                message: '不能为空',
-              },
-            ]}
-          ></ProFormText>
-
-          <ProFormSelect
-            name={'paperid'}
-            label="选择考卷"
-            request={async () => {
-              const res = await getAllPaper();
-              return res.records.map((item: dataType) => {
-                return {
-                  label: item.name + `(试卷课程：${item.major})`,
-                  value: item.id,
-                };
-              });
-            }}
-            rules={[
-              {
-                required: true,
-                message: '不能为空',
-              },
-            ]}
-          ></ProFormSelect>
-          <ProFormSelect
-            name={'ids'}
-            label="选择班级"
-            request={async () => {
-              const res = await getAllClassList();
-              return res.records.map((item: any) => {
-                return {
-                  label: item.clazz,
-                  value: item.id,
-                };
-              });
-            }}
-            rules={[
-              {
-                required: true,
-                message: '不能为空',
-              },
-            ]}
-          ></ProFormSelect>
-        </ModalForm>
-      </div>
-      <Table
-        columns={columns}
-        dataSource={data}
-        loading={loading}
-        pagination={{
-          defaultPageSize: 7,
-          total: pageInfo.total,
-          current: pageInfo.current,
-          onChange: handlePageChange,
-          showTotal: showTotal,
-        }}
-      />
-      <Modal
-        style={{
-          height: '70%',
-        }}
-        width={'50%'}
-        visible={isPaperModalVisible}
-        title={'试卷修改'}
-        onCancel={() => {
-          setIsPaperModalVisible(false);
-        }}
-        destroyOnClose
-        footer={[]}
-      >
+    <div className={styles.scoped}>
+      <div className={styles.showBox}>
         <div>
           <ModalForm
-            trigger={<Button>添加试题</Button>}
-            title="添加试题"
-            onFinish={handleAddQuestion}
             modalProps={{
               destroyOnClose: true,
             }}
+            title="添加试卷"
+            trigger={<Button>添加试卷</Button>}
+            onFinish={handleAddPaper}
           >
-            <ProFormSelect.SearchSelect
-              name="select"
-              placeholder={'添加选择题'}
-              debounceTime={300}
+            <ProFormText
+              name={'name'}
+              placeholder={'请输入试卷名'}
+              rules={[
+                {
+                  required: true,
+                  message: '不能为空',
+                },
+              ]}
+            ></ProFormText>
+            <ProFormText
+              name={'major'}
+              placeholder={'请输入试卷课程'}
+              rules={[
+                {
+                  required: true,
+                  message: '不能为空',
+                },
+              ]}
+            ></ProFormText>
+            <ProFormText
+              name={'totalTime'}
+              placeholder={'试卷限定完成时长（分钟）'}
+              rules={[
+                {
+                  required: true,
+                  message: '不能为空',
+                },
+              ]}
+            ></ProFormText>
+          </ModalForm>
+          <ModalForm
+            trigger={<Button>发布考试</Button>}
+            title="发布考试"
+            modalProps={{
+              destroyOnClose: true,
+            }}
+            onFinish={handleAddExam}
+          >
+            <ProFormText
+              name={'source'}
+              placeholder={'课程名称'}
+              rules={[
+                {
+                  required: true,
+                  message: '不能为空',
+                },
+              ]}
+            ></ProFormText>
+
+            <ProFormText
+              name={'examdate'}
+              placeholder={'考试日期 格式如:2022-1-1'}
+              rules={[
+                {
+                  required: true,
+                  message: '不能为空',
+                },
+              ]}
+            ></ProFormText>
+
+            <ProFormSelect
+              name={'paperid'}
+              label="选择考卷"
               request={async () => {
-                const res = await getAllSelect();
-                return res.records.map((item: QuestionData) => {
+                const res = await getAllPaper();
+                return res.records.map((item: dataType) => {
                   return {
-                    label: `${item.id}:${item.subject}`,
+                    label: item.name + `(试卷课程：${item.major})`,
                     value: item.id,
-                    type: 3,
                   };
                 });
               }}
-            ></ProFormSelect.SearchSelect>
-            <ProFormSelect.SearchSelect
-              name="fill"
-              placeholder={'添加填空题'}
-              debounceTime={300}
+              rules={[
+                {
+                  required: true,
+                  message: '不能为空',
+                },
+              ]}
+            ></ProFormSelect>
+            <ProFormSelect
+              name={'ids'}
+              label="选择班级"
               request={async () => {
-                const res = await getAllFill();
-                return res.records.map((item: QuestionData) => {
+                const res = await getAllClassList();
+                return res.records.map((item: any) => {
                   return {
-                    label: `${item.id}:${item.subject}`,
+                    label: item.clazz,
                     value: item.id,
-                    type: 1,
                   };
                 });
               }}
-            ></ProFormSelect.SearchSelect>
-            <ProFormSelect.SearchSelect
-              name="judge"
-              placeholder={'添加判断题'}
-              debounceTime={300}
-              request={async () => {
-                const res = await getAllJudge();
-                return res.records.map((item: QuestionData) => {
-                  return {
-                    label: `${item.id}:${item.subject}`,
-                    value: item.id,
-                    type: 2,
-                  };
-                });
-              }}
-            ></ProFormSelect.SearchSelect>
-            <ProFormSelect.SearchSelect
-              name="multi"
-              placeholder={'添加主观题'}
-              debounceTime={300}
-              request={async () => {
-                const res = await getAllMulti();
-                return res.records.map((item: QuestionData) => {
-                  return {
-                    label: `${item.id}:${item.subject}`,
-                    value: item.id,
-                    type: 4,
-                  };
-                });
-              }}
-            ></ProFormSelect.SearchSelect>
+              rules={[
+                {
+                  required: true,
+                  message: '不能为空',
+                },
+              ]}
+            ></ProFormSelect>
           </ModalForm>
         </div>
-        <div
-          style={{
-            height: '300px',
-            overflow: 'auto',
+        <Table
+          columns={columns}
+          dataSource={data}
+          loading={loading}
+          pagination={{
+            defaultPageSize: 7,
+            total: pageInfo.total,
+            current: pageInfo.current,
+            onChange: handlePageChange,
+            showTotal: showTotal,
           }}
+        />
+        <Modal
+          style={{
+            height: '70%',
+          }}
+          width={'50%'}
+          visible={isPaperModalVisible}
+          title={'试卷修改'}
+          onCancel={() => {
+            setIsPaperModalVisible(false);
+          }}
+          destroyOnClose
+          footer={[]}
         >
-          选择题：
           <div>
-            {paperDetailData.multiQuestions.length > 0
-              ? paperDetailData.multiQuestions.map((item: SelectQuestion) => {
-                  return (
-                    <div
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'space-around',
-                      }}
-                      key={nanoid()}
-                    >
-                      <Select
-                        question={item.question}
-                        answera={item.answera}
-                        answerb={item.answerb}
-                        answerc={item.answerc}
-                        answerd={item.answerd}
-                        score={item.score}
-                      ></Select>
-                      <div
-                        style={{
-                          width: '100px',
-                        }}
-                      >
-                        <Popconfirm
-                          title="确定删除此题吗"
-                          okText="确定"
-                          cancelText="取消"
-                          onConfirm={async () => {
-                            const res = await deleteQuestionFromPaper(
-                              selectedPaperid,
-                              item.id,
-                              3,
-                            );
-                            if (res.code === 0) {
-                              message.success('删除成功');
-                            }
-                            fetchPaperDetail(selectedPaperid);
-                            return true;
-                          }}
-                        >
-                          <Button danger>删除</Button>
-                        </Popconfirm>
-                        <div>答案：{item.rightanswer}</div>
-                      </div>
-                    </div>
-                  );
-                })
-              : '无此类题目'}
+            <ModalForm
+              trigger={<Button>添加试题</Button>}
+              title="添加试题"
+              onFinish={handleAddQuestion}
+              modalProps={{
+                destroyOnClose: true,
+              }}
+            >
+              <ProFormSelect.SearchSelect
+                name="select"
+                placeholder={'添加选择题'}
+                debounceTime={300}
+                request={async () => {
+                  const res = await getAllSelect();
+                  return res.records.map((item: QuestionData) => {
+                    return {
+                      label: `${item.id}:${item.subject}`,
+                      value: item.id,
+                      type: 3,
+                    };
+                  });
+                }}
+              ></ProFormSelect.SearchSelect>
+              <ProFormSelect.SearchSelect
+                name="fill"
+                placeholder={'添加填空题'}
+                debounceTime={300}
+                request={async () => {
+                  const res = await getAllFill();
+                  return res.records.map((item: QuestionData) => {
+                    return {
+                      label: `${item.id}:${item.subject}`,
+                      value: item.id,
+                      type: 1,
+                    };
+                  });
+                }}
+              ></ProFormSelect.SearchSelect>
+              <ProFormSelect.SearchSelect
+                name="judge"
+                placeholder={'添加判断题'}
+                debounceTime={300}
+                request={async () => {
+                  const res = await getAllJudge();
+                  return res.records.map((item: QuestionData) => {
+                    return {
+                      label: `${item.id}:${item.subject}`,
+                      value: item.id,
+                      type: 2,
+                    };
+                  });
+                }}
+              ></ProFormSelect.SearchSelect>
+              <ProFormSelect.SearchSelect
+                name="multi"
+                placeholder={'添加主观题'}
+                debounceTime={300}
+                request={async () => {
+                  const res = await getAllMulti();
+                  return res.records.map((item: QuestionData) => {
+                    return {
+                      label: `${item.id}:${item.subject}`,
+                      value: item.id,
+                      type: 4,
+                    };
+                  });
+                }}
+              ></ProFormSelect.SearchSelect>
+            </ModalForm>
           </div>
-          判断题：
-          <div>
-            {paperDetailData.judgeQuestions.length > 0
-              ? paperDetailData.judgeQuestions.map((item: ElseQuestion) => {
-                  return (
-                    <div
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'space-around',
-                      }}
-                      key={nanoid()}
-                    >
-                      <Fill question={item.question} score={item.score}></Fill>
+          <div
+            style={{
+              height: '300px',
+              overflow: 'auto',
+            }}
+          >
+            选择题：
+            <div>
+              {paperDetailData.multiQuestions.length > 0
+                ? paperDetailData.multiQuestions.map((item: SelectQuestion) => {
+                    return (
                       <div
                         style={{
-                          width: '100px',
+                          display: 'flex',
+                          justifyContent: 'space-around',
                         }}
+                        key={nanoid()}
                       >
-                        <Popconfirm
-                          title="确定删除此题吗"
-                          okText="确定"
-                          cancelText="取消"
-                          onConfirm={async () => {
-                            const res = await deleteQuestionFromPaper(
-                              selectedPaperid,
-                              item.id,
-                              2,
-                            );
-                            if (res.code === 0) {
-                              message.success('删除成功');
-                            }
-                            fetchPaperDetail(selectedPaperid);
-                            return true;
-                          }}
-                        >
-                          <Button danger>删除</Button>
-                        </Popconfirm>
+                        <Select
+                          question={item.question}
+                          answera={item.answera}
+                          answerb={item.answerb}
+                          answerc={item.answerc}
+                          answerd={item.answerd}
+                          score={item.score}
+                        ></Select>
                         <div
                           style={{
-                            overflow: 'auto',
+                            width: '100px',
                           }}
                         >
-                          答案：{item.answer}
+                          <Popconfirm
+                            title="确定删除此题吗"
+                            okText="确定"
+                            cancelText="取消"
+                            onConfirm={async () => {
+                              const res = await deleteQuestionFromPaper(
+                                selectedPaperid,
+                                item.id,
+                                3,
+                              );
+                              if (res.code === 0) {
+                                message.success('删除成功');
+                              }
+                              fetchPaperDetail(selectedPaperid);
+                              return true;
+                            }}
+                          >
+                            <Button danger>删除</Button>
+                          </Popconfirm>
+                          <div>答案：{item.rightanswer}</div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })
-              : '无此类题目'}
-          </div>
-          填空题：
-          <div>
-            {paperDetailData.fillQuestions.length > 0
-              ? paperDetailData.fillQuestions.map((item: ElseQuestion) => {
-                  return (
-                    <div
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'space-around',
-                      }}
-                      key={nanoid()}
-                    >
-                      <Fill question={item.question} score={item.score}></Fill>
-                      <div
-                        style={{
-                          width: '100px',
-                        }}
-                      >
-                        <Popconfirm
-                          title="确定删除此题吗"
-                          okText="确定"
-                          cancelText="取消"
-                          onConfirm={async () => {
-                            const res = await deleteQuestionFromPaper(
-                              selectedPaperid,
-                              item.id,
-                              1,
-                            );
-                            if (res.code === 0) {
-                              message.success('删除成功');
-                            }
-                            fetchPaperDetail(selectedPaperid);
-                            return true;
-                          }}
-                        >
-                          <Button danger>删除</Button>
-                        </Popconfirm>
-                        <div
-                          style={{
-                            overflow: 'auto',
-                          }}
-                        >
-                          答案：{item.answer}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })
-              : '无此类题目'}
-          </div>
-          主观题：
-          <div>
-            {paperDetailData.subjectiveQuestions.length > 0
-              ? paperDetailData.subjectiveQuestions.map(
-                  (item: ElseQuestion) => {
+                    );
+                  })
+                : '无此类题目'}
+            </div>
+            判断题：
+            <div>
+              {paperDetailData.judgeQuestions.length > 0
+                ? paperDetailData.judgeQuestions.map((item: ElseQuestion) => {
                     return (
                       <div
                         style={{
@@ -556,7 +457,7 @@ const ExamPaper = () => {
                               const res = await deleteQuestionFromPaper(
                                 selectedPaperid,
                                 item.id,
-                                4,
+                                2,
                               );
                               if (res.code === 0) {
                                 message.success('删除成功');
@@ -577,12 +478,120 @@ const ExamPaper = () => {
                         </div>
                       </div>
                     );
-                  },
-                )
-              : '无此类题目'}
+                  })
+                : '无此类题目'}
+            </div>
+            填空题：
+            <div>
+              {paperDetailData.fillQuestions.length > 0
+                ? paperDetailData.fillQuestions.map((item: ElseQuestion) => {
+                    return (
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-around',
+                        }}
+                        key={nanoid()}
+                      >
+                        <Fill
+                          question={item.question}
+                          score={item.score}
+                        ></Fill>
+                        <div
+                          style={{
+                            width: '100px',
+                          }}
+                        >
+                          <Popconfirm
+                            title="确定删除此题吗"
+                            okText="确定"
+                            cancelText="取消"
+                            onConfirm={async () => {
+                              const res = await deleteQuestionFromPaper(
+                                selectedPaperid,
+                                item.id,
+                                1,
+                              );
+                              if (res.code === 0) {
+                                message.success('删除成功');
+                              }
+                              fetchPaperDetail(selectedPaperid);
+                              return true;
+                            }}
+                          >
+                            <Button danger>删除</Button>
+                          </Popconfirm>
+                          <div
+                            style={{
+                              overflow: 'auto',
+                            }}
+                          >
+                            答案：{item.answer}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })
+                : '无此类题目'}
+            </div>
+            主观题：
+            <div>
+              {paperDetailData.subjectiveQuestions.length > 0
+                ? paperDetailData.subjectiveQuestions.map(
+                    (item: ElseQuestion) => {
+                      return (
+                        <div
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'space-around',
+                          }}
+                          key={nanoid()}
+                        >
+                          <Fill
+                            question={item.question}
+                            score={item.score}
+                          ></Fill>
+                          <div
+                            style={{
+                              width: '100px',
+                            }}
+                          >
+                            <Popconfirm
+                              title="确定删除此题吗"
+                              okText="确定"
+                              cancelText="取消"
+                              onConfirm={async () => {
+                                const res = await deleteQuestionFromPaper(
+                                  selectedPaperid,
+                                  item.id,
+                                  4,
+                                );
+                                if (res.code === 0) {
+                                  message.success('删除成功');
+                                }
+                                fetchPaperDetail(selectedPaperid);
+                                return true;
+                              }}
+                            >
+                              <Button danger>删除</Button>
+                            </Popconfirm>
+                            <div
+                              style={{
+                                overflow: 'auto',
+                              }}
+                            >
+                              答案：{item.answer}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    },
+                  )
+                : '无此类题目'}
+            </div>
           </div>
-        </div>
-      </Modal>
+        </Modal>
+      </div>
     </div>
   );
 };

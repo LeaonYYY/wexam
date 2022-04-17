@@ -16,6 +16,7 @@ interface MultiData {
   score: number;
   level: number;
 }
+import styles from '../index.less';
 const levelMap: Record<number, string> = {
   1: '简单',
   2: '一般',
@@ -138,89 +139,91 @@ const Multi = () => {
     return `总共有：${total} 题`;
   };
   return (
-    <div>
-      <div>
-        <Button
-          onClick={() => {
-            history.goBack();
-          }}
-        >
-          返回
-        </Button>
-        <ModalForm
-          trigger={<Button>添加</Button>}
-          title={'新增题目'}
-          onFinish={handleAddQuestion}
-        >
-          <ProFormText
-            name={'question'}
-            placeholder={'请输入题目'}
-            rules={[
-              {
-                required: true,
-                message: '不能为空',
-              },
-            ]}
-          ></ProFormText>
-          <ProFormText
-            name={'answer'}
-            placeholder={'请输入正确答案'}
-            rules={[
-              {
-                required: true,
-                message: '不能为空',
-              },
-            ]}
-          ></ProFormText>
-          <ProFormText
-            name={'score'}
-            placeholder={'请输入分值'}
-            rules={[
-              {
-                required: true,
-                message: '不能为空',
-              },
-            ]}
-          ></ProFormText>
-          <ProFormText
-            name={'subject'}
-            placeholder={'请输入所属学科'}
-            rules={[
-              {
-                required: true,
-                message: '不能为空',
-              },
-            ]}
-          ></ProFormText>
-          <ProFormSelect
-            placeholder={'请选择题目难度'}
-            name={'level'}
-            valueEnum={{
-              1: '简单',
-              2: '一般',
-              3: '困难',
+    <div className={styles.scoped}>
+      <div className={styles.showBox}>
+        <div>
+          <Button
+            onClick={() => {
+              history.goBack();
             }}
-            rules={[
-              {
-                required: true,
-                message: '不能为空',
-              },
-            ]}
-          ></ProFormSelect>
-        </ModalForm>
+          >
+            返回
+          </Button>
+          <ModalForm
+            trigger={<Button>添加</Button>}
+            title={'新增题目'}
+            onFinish={handleAddQuestion}
+          >
+            <ProFormText
+              name={'question'}
+              placeholder={'请输入题目'}
+              rules={[
+                {
+                  required: true,
+                  message: '不能为空',
+                },
+              ]}
+            ></ProFormText>
+            <ProFormText
+              name={'answer'}
+              placeholder={'请输入正确答案'}
+              rules={[
+                {
+                  required: true,
+                  message: '不能为空',
+                },
+              ]}
+            ></ProFormText>
+            <ProFormText
+              name={'score'}
+              placeholder={'请输入分值'}
+              rules={[
+                {
+                  required: true,
+                  message: '不能为空',
+                },
+              ]}
+            ></ProFormText>
+            <ProFormText
+              name={'subject'}
+              placeholder={'请输入所属学科'}
+              rules={[
+                {
+                  required: true,
+                  message: '不能为空',
+                },
+              ]}
+            ></ProFormText>
+            <ProFormSelect
+              placeholder={'请选择题目难度'}
+              name={'level'}
+              valueEnum={{
+                1: '简单',
+                2: '一般',
+                3: '困难',
+              }}
+              rules={[
+                {
+                  required: true,
+                  message: '不能为空',
+                },
+              ]}
+            ></ProFormSelect>
+          </ModalForm>
+        </div>
+        <Table
+          loading={loading}
+          columns={columns}
+          dataSource={data}
+          pagination={{
+            defaultPageSize: 7,
+            current: pageInfo.current,
+            total: pageInfo.total,
+            showTotal: show,
+            onChange: handlePageChange,
+          }}
+        />
       </div>
-      <Table
-        loading={loading}
-        columns={columns}
-        dataSource={data}
-        pagination={{
-          defaultPageSize: 7,
-          current: pageInfo.current,
-          total: pageInfo.total,
-          showTotal: show,
-          onChange: handlePageChange,
-        }}
-      />
     </div>
   );
 };

@@ -2,6 +2,7 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import MsgBox from './components/MsgBox';
 import { getMsg } from '@/services/student';
+import { Empty } from 'antd';
 import { nanoid } from 'nanoid';
 import styles from './index.less';
 const Message = () => {
@@ -17,9 +18,13 @@ const Message = () => {
   };
   return (
     <div className={styles.scoped}>
-      {data.map((value: API.MsgItem, index: number) => (
-        <MsgBox {...value} key={value.id} index={index}></MsgBox>
-      ))}
+      {data.length > 0 ? (
+        data.map((value: API.MsgItem, index: number) => (
+          <MsgBox {...value} key={value.id} index={index}></MsgBox>
+        ))
+      ) : (
+        <Empty description={'暂无通知消息'} />
+      )}
     </div>
   );
 };

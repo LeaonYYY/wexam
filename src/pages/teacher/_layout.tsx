@@ -64,13 +64,13 @@ const Layout: FC<any> = ({ children }) => {
             selectedKeys={[selectKey]}
           >
             <Menu.Item key="/teacher/notice">通知管理</Menu.Item>
-            <Menu.Item key="/teacher/student">学生管理</Menu.Item>
+
             <Menu.Item key="/teacher/class">班级管理</Menu.Item>
-            <Menu.Item key="/teacher/score">成绩管理</Menu.Item>
+            {/* <Menu.Item key="/teacher/score">成绩管理</Menu.Item> */}
             <Menu.Item key="/teacher/examBase">题库管理</Menu.Item>
             <Menu.Item key="/teacher/examPage">试卷管理</Menu.Item>
-            <Menu.Item key="/teacher/examWatch">考试安排</Menu.Item>
-            <Menu.Item key="/teacher/check">线上批卷</Menu.Item>
+            <Menu.Item key="/teacher/examWatch">考试管理</Menu.Item>
+            <Menu.Item key="/teacher/check">考试批改</Menu.Item>
             <Menu.Item key="/teacher/mine">我的</Menu.Item>
           </Menu>
         </Sider>

@@ -292,3 +292,36 @@ export async function deleteQuestionFromPaper(
     ],
   });
 }
+export async function getUnCheckPaper() {
+  return request('/exam/studentanswer/allwaitingcorrect', {
+    method: 'POST',
+  });
+}
+export async function autoCheck(key: number, data: API.StuAnswer[]) {
+  return request('/exam/studentanswer/autojudge', {
+    method: 'POST',
+    data: {
+      answerDTOS: data,
+      score: 0,
+    },
+  });
+}
+export async function submitCheck(data: API.StuAnswer[], score: number) {
+  return request('/exam/studentanswer/handjudge', {
+    method: 'POST',
+    data: {
+      answerDTOS: data,
+      score: score,
+    },
+  });
+}
+export async function saveScore(userid: number, examid: number, score: number) {
+  return request('/exam/score/save', {
+    method: 'POST',
+    data: {
+      userid,
+      examid,
+      score,
+    },
+  });
+}

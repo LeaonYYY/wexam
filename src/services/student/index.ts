@@ -61,18 +61,42 @@ export async function getExamPaperDetail(id: number) {
   });
 }
 export async function submitQuestionAnswer(
-  paperid: string,
-  questionType: number,
-  questionid: number,
-  userAnswer: string,
+  body: {
+    examid: number;
+    questionType: number;
+    questionid: number;
+    userAnswer: string;
+  }[],
 ) {
   return request('/exam/studentanswer/questionsubmit', {
     method: 'POST',
+    data: body,
+  });
+}
+export async function stopExam(examid: number, userid: string) {
+  return request('/exam/exammanage/finishexam', {
+    method: 'POST',
     data: {
-      paperid: parseInt(paperid),
-      questionType,
-      questionid,
-      userAnswer,
+      examid,
+      userid: parseInt(userid),
+    },
+  });
+}
+export async function startExam(examid: number, userid: string) {
+  return request('/exam/exammanage/startexam', {
+    method: 'POST',
+    data: {
+      examid,
+      userid: parseInt(userid),
+    },
+  });
+}
+export async function getScores() {
+  return request('/exam/score/list', {
+    method: 'POST',
+    data: {
+      page: 1,
+      limit: 99,
     },
   });
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Table, Button } from 'antd';
 import { history } from 'umi';
-
+import styles from './index.less';
 import { DATA_SOURCE } from './constant';
 const Notice = () => {
   const handleRedirect = (key: string) => {
@@ -53,8 +53,10 @@ const Notice = () => {
     },
   ];
   return (
-    <div>
-      <Table columns={columns} dataSource={DATA_SOURCE} />
+    <div className={styles.scoped}>
+      <div className={styles.showBox}>
+        <Table columns={columns} dataSource={DATA_SOURCE} />
+      </div>
     </div>
   );
 };

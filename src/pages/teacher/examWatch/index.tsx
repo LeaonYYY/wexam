@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styles from './index.less';
 import { Table, Button, Popconfirm, message, Modal } from 'antd';
-import { deleteExam, getExamPaerDetail, getExams } from '@/services/teacher';
+import {
+  deleteExam,
+  getExamPaerDetail,
+  getExams,
+  getUnCheckPaper,
+} from '@/services/teacher';
 import { pageInfo, PaperDetail } from '@/types';
 import { current } from '@reduxjs/toolkit';
 import { SelectQuestion, ElseQuestion } from '@/types';
@@ -22,12 +27,14 @@ const Exams = () => {
   const [pageInfo, setPageInfo] = useState<pageInfo>({ current: 1, total: 0 });
   const [loading, setLoading] = useState(false);
   const [isModalShow, setIsModalShow] = useState(false);
+  const [isCheckModalShow, setIsCheckModalShow] = useState(false);
   const [paperDetailData, setPaperDetailData] = useState<PaperDetail>({
     fillQuestions: [],
     judgeQuestions: [],
     multiQuestions: [],
     subjectiveQuestions: [],
   });
+
   useEffect(() => {
     fetchData(1);
   }, []);
@@ -78,6 +85,7 @@ const Exams = () => {
     setIsModalShow(true);
     fetchDetailData(id);
   };
+
   const showTotal = (total: number) => {
     return `一共有${total}场考试`;
   };
@@ -130,137 +138,75 @@ const Exams = () => {
     },
   ];
   return (
-    <div>
-      <Table
-        columns={columns}
-        dataSource={data}
-        loading={loading}
-        pagination={{
-          defaultPageSize: 7,
-          current: pageInfo.current,
-          total: pageInfo.total,
-          showTotal: showTotal,
-          onChange: handlePageChange,
-        }}
-      ></Table>
-      <Modal
-        style={{
-          height: '70%',
-        }}
-        width={'50%'}
-        visible={isModalShow}
-        title={'试卷修改'}
-        onCancel={() => {
-          setIsModalShow(false);
-        }}
-        destroyOnClose
-        footer={[]}
-      >
-        <div
-          style={{
-            height: '300px',
-            overflow: 'auto',
+    <div className={styles.scoped}>
+      <div className={styles.showBox}>
+        <Table
+          columns={columns}
+          dataSource={data}
+          loading={loading}
+          pagination={{
+            defaultPageSize: 7,
+            current: pageInfo.current,
+            total: pageInfo.total,
+            showTotal: showTotal,
+            onChange: handlePageChange,
           }}
+        ></Table>
+        <Modal
+          style={{
+            height: '70%',
+          }}
+          width={'50%'}
+          visible={isModalShow}
+          title={'查看试卷'}
+          onCancel={() => {
+            setIsModalShow(false);
+          }}
+          destroyOnClose
+          footer={[]}
         >
-          选择题：
-          <div>
-            {paperDetailData.multiQuestions.length > 0
-              ? paperDetailData.multiQuestions.map((item: SelectQuestion) => {
-                  return (
-                    <div
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'space-around',
-                      }}
-                      key={nanoid()}
-                    >
-                      <Select
-                        question={item.question}
-                        answera={item.answera}
-                        answerb={item.answerb}
-                        answerc={item.answerc}
-                        answerd={item.answerd}
-                        score={item.score}
-                      ></Select>
+          <div
+            style={{
+              height: '300px',
+              overflow: 'auto',
+            }}
+          >
+            选择题：
+            <div>
+              {paperDetailData.multiQuestions.length > 0
+                ? paperDetailData.multiQuestions.map((item: SelectQuestion) => {
+                    return (
                       <div
                         style={{
-                          width: '100px',
+                          display: 'flex',
+                          justifyContent: 'space-around',
                         }}
+                        key={nanoid()}
                       >
-                        <div>答案：{item.rightanswer}</div>
-                      </div>
-                    </div>
-                  );
-                })
-              : '无此类题目'}
-          </div>
-          判断题：
-          <div>
-            {paperDetailData.judgeQuestions.length > 0
-              ? paperDetailData.judgeQuestions.map((item: ElseQuestion) => {
-                  return (
-                    <div
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'space-around',
-                      }}
-                      key={nanoid()}
-                    >
-                      <Fill question={item.question} score={item.score}></Fill>
-                      <div
-                        style={{
-                          width: '100px',
-                        }}
-                      >
+                        <Select
+                          question={item.question}
+                          answera={item.answera}
+                          answerb={item.answerb}
+                          answerc={item.answerc}
+                          answerd={item.answerd}
+                          score={item.score}
+                        ></Select>
                         <div
                           style={{
-                            overflow: 'auto',
+                            width: '100px',
                           }}
                         >
-                          答案：{item.answer}
+                          <div>答案：{item.rightanswer}</div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })
-              : '无此类题目'}
-          </div>
-          填空题：
-          <div>
-            {paperDetailData.fillQuestions.length > 0
-              ? paperDetailData.fillQuestions.map((item: ElseQuestion) => {
-                  return (
-                    <div
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'space-around',
-                      }}
-                      key={nanoid()}
-                    >
-                      <Fill question={item.question} score={item.score}></Fill>
-                      <div
-                        style={{
-                          width: '100px',
-                        }}
-                      >
-                        <div
-                          style={{
-                            overflow: 'auto',
-                          }}
-                        >
-                          答案：{item.answer}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })
-              : '无此类题目'}
-          </div>
-          主观题：
-          <div>
-            {paperDetailData.subjectiveQuestions.length > 0
-              ? paperDetailData.subjectiveQuestions.map(
-                  (item: ElseQuestion) => {
+                    );
+                  })
+                : '无此类题目'}
+            </div>
+            判断题：
+            <div>
+              {paperDetailData.judgeQuestions.length > 0
+                ? paperDetailData.judgeQuestions.map((item: ElseQuestion) => {
                     return (
                       <div
                         style={{
@@ -288,12 +234,82 @@ const Exams = () => {
                         </div>
                       </div>
                     );
-                  },
-                )
-              : '无此类题目'}
+                  })
+                : '无此类题目'}
+            </div>
+            填空题：
+            <div>
+              {paperDetailData.fillQuestions.length > 0
+                ? paperDetailData.fillQuestions.map((item: ElseQuestion) => {
+                    return (
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-around',
+                        }}
+                        key={nanoid()}
+                      >
+                        <Fill
+                          question={item.question}
+                          score={item.score}
+                        ></Fill>
+                        <div
+                          style={{
+                            width: '100px',
+                          }}
+                        >
+                          <div
+                            style={{
+                              overflow: 'auto',
+                            }}
+                          >
+                            答案：{item.answer}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })
+                : '无此类题目'}
+            </div>
+            主观题：
+            <div>
+              {paperDetailData.subjectiveQuestions.length > 0
+                ? paperDetailData.subjectiveQuestions.map(
+                    (item: ElseQuestion) => {
+                      return (
+                        <div
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'space-around',
+                          }}
+                          key={nanoid()}
+                        >
+                          <Fill
+                            question={item.question}
+                            score={item.score}
+                          ></Fill>
+                          <div
+                            style={{
+                              width: '100px',
+                            }}
+                          >
+                            <div
+                              style={{
+                                overflow: 'auto',
+                              }}
+                            >
+                              答案：{item.answer}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    },
+                  )
+                : '无此类题目'}
+            </div>
           </div>
-        </div>
-      </Modal>
+        </Modal>
+      </div>
     </div>
   );
 };

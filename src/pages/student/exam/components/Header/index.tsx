@@ -6,7 +6,7 @@ const Header = () => {
     <div className={styles.header}>
       <div>课程名称</div>
       <div>考试时间</div>
-      <div>当前状态</div>
+      <div>班级</div>
       <div>操作</div>
     </div>
   );

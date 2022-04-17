@@ -1,9 +1,10 @@
 import React, { FC } from 'react';
 import { nanoid } from 'nanoid';
-import { Button, Modal } from 'antd';
+import { Button, Modal, message } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import { history } from 'umi';
+import { startExam } from '@/services/student';
 
 const { confirm } = Modal;
 
@@ -12,21 +13,29 @@ interface Props {
 }
 
 const Content: FC<Props> = ({ examData }) => {
-  const handleExamStart = (id: any) => {
+  const handleExamStart = (paperid: any, examid: any) => {
     confirm({
       title: '确认开始考试?',
       icon: <ExclamationCircleOutlined />,
       content: '只有一次考试机会',
       okText: '确认',
       cancelText: '取消',
-      onOk() {
-        console.log(id);
-        history.push({
-          pathname: '/examPage',
-          query: {
-            id: id,
-          },
-        });
+      onOk: async () => {
+        const res = await startExam(
+          examid,
+          localStorage.getItem('userid') || '',
+        );
+        if (res.code === 0) {
+          history.push({
+            pathname: '/examPage',
+            query: {
+              paperid: paperid,
+              examid: examid,
+            },
+          });
+        } else {
+          message.error(res.msg);
+        }
       },
       onCancel() {
         console.log('Cancel');
@@ -48,7 +57,7 @@ const Content: FC<Props> = ({ examData }) => {
           >
             <div>{val.source}</div>
             <div>{val.examdate}</div>
-            <div>{val.status}</div>
+            <div>{val.className || ' '}</div>
             {/* {val.state === -1 ? (
               <div>已结束</div>
             ) : val.state === 0 ? (
@@ -61,7 +70,7 @@ const Content: FC<Props> = ({ examData }) => {
                 // disabled={val.state === 1 ? false : true}
                 type="text"
                 onClick={() => {
-                  handleExamStart(val.paperid);
+                  handleExamStart(val.paperid, val.id);
                 }}
               >
                 开始考试

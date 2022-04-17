@@ -11,13 +11,12 @@ declare namespace API {
     stuNo?: string;
   };
   type ScoreItem = {
-    id: string;
-    name: string;
-    time: string;
+    examid: number;
     score: number;
   };
   type ExamItem = {
     id: number;
+    className: string;
     source: string;
     examdate: string;
     status: string;

@@ -45,6 +45,7 @@ const Regist = () => {
       <div className={styles.registBox}>
         <LoginForm
           title={'注册'}
+          subTitle="用户注册"
           onFinish={handleSubmit}
           submitter={{
             searchConfig: {

@@ -39,4 +39,14 @@ declare namespace API {
     major: string;
     totalTime: string;
   };
+  type StuAnswer = {
+    questionName: string;
+    questionType: number;
+    questionScore: number;
+    rightAnswer: string;
+    source: string;
+    studentAnswer: string;
+    studentAnswerId: number;
+    studentScore?: number;
+  };
 }

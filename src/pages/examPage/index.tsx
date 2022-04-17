@@ -4,27 +4,36 @@ import { nanoid } from 'nanoid';
 import styles from './index.less';
 import { ProForm, ProFormSelect } from '@ant-design/pro-form';
 import { ElseQuestion, PaperDetail, SelectQuestion } from '@/types';
-import { submitQuestionAnswer } from '@/services/student';
-import { Select as Slecter, Input, Button } from 'antd';
+import { stopExam, submitQuestionAnswer } from '@/services/student';
+import { Select as Slecter, Input, Button, Popconfirm, message } from 'antd';
 import Select from '@/components/Select';
 import Fill from '@/components/Fill';
 import { getExamPaerDetail } from '@/services/teacher';
+
+interface StuAnswer {
+  examid: number;
+  questionType: number; //1填空 2 判断 3选择 4主观
+  questionid: number;
+  userAnswer: string;
+}
 const { TextArea } = Input;
 const ExamPage: React.FC = () => {
   const { getData, data, siderData } = useModel('examPage');
-  const [paperid, setPaperid] = useState('');
+  const [examid, setExamid] = useState('');
   const [paperDetailData, setPaperDetailData] = useState<PaperDetail>({
     fillQuestions: [],
     judgeQuestions: [],
     multiQuestions: [],
     subjectiveQuestions: [],
   });
+  // const [stuAnswer,setStuAnswer] = useState<StuAnswer[]>([]);
+  let stuAnswer: StuAnswer[] = [];
   useEffect(() => {
     const { query } = history.location;
     //@ts-ignore
-    fetchPaperDetail(query.id);
+    fetchPaperDetail(query.paperid);
     //@ts-ignore
-    setPaperid(query.id);
+    setExamid(query.examid);
   }, []);
   const fetchPaperDetail = async (id: number) => {
     const res = await getExamPaerDetail(id);
@@ -35,21 +44,49 @@ const ExamPage: React.FC = () => {
       subjectiveQuestions: res?.paper?.subjectiveQuestions?.[0] || [],
     });
   };
-  const handleSubmit = async (
+  const handleChangeAnswer = (
     value: string,
     questionid: number,
     questiontype: number,
   ) => {
-    const res = await submitQuestionAnswer(
-      paperid,
-      questiontype,
-      questionid,
-      value,
+    let flag = -1;
+    stuAnswer.forEach((item: StuAnswer, index: number) => {
+      if (
+        item.questionType === questiontype &&
+        item.questionid === questionid
+      ) {
+        flag = index;
+      }
+    });
+    if (flag != -1) {
+      stuAnswer.splice(flag, 1);
+    }
+    stuAnswer = [
+      ...stuAnswer,
+      {
+        examid: parseInt(examid),
+        questionType: questiontype,
+        questionid: questionid,
+        userAnswer: value,
+      },
+    ];
+  };
+  const handleSubmitAnswer = async () => {
+    const res1 = await submitQuestionAnswer(stuAnswer);
+    const res2 = await stopExam(
+      parseInt(examid),
+      localStorage.getItem('userid') || '',
     );
+    if (res1.code === 0 && res2.code === 0) {
+      message.success('提交成功');
+      history.push('/student/exam');
+    } else {
+      message.error('出现错误');
+    }
   };
   return (
     <div className={styles.scoped}>
-      <div>
+      <div className={styles.paper}>
         <h1>一.选择题</h1>
         <div>
           {paperDetailData.multiQuestions.length > 0
@@ -59,7 +96,7 @@ const ExamPage: React.FC = () => {
                     <div
                       style={{
                         display: 'flex',
-                        justifyContent: 'space-around',
+                        justifyContent: 'space-between',
                       }}
                       key={nanoid()}
                     >
@@ -76,7 +113,7 @@ const ExamPage: React.FC = () => {
                         <Slecter
                           placeholder="请选择答案"
                           onChange={(value: string) => {
-                            handleSubmit(value, item.id, 3);
+                            handleChangeAnswer(value, item.id, 3);
                           }}
                         >
                           <Slecter.Option value="A">A</Slecter.Option>
@@ -100,7 +137,7 @@ const ExamPage: React.FC = () => {
                     <div
                       style={{
                         display: 'flex',
-                        justifyContent: 'space-around',
+                        justifyContent: 'space-between',
                       }}
                       key={nanoid()}
                     >
@@ -113,7 +150,7 @@ const ExamPage: React.FC = () => {
                         <Slecter
                           placeholder="请选择答案"
                           onChange={(value: string) => {
-                            handleSubmit(value, item.id, 2);
+                            handleChangeAnswer(value, item.id, 2);
                           }}
                         >
                           <Slecter.Option value="T">正确</Slecter.Option>
@@ -135,7 +172,7 @@ const ExamPage: React.FC = () => {
                     <div
                       style={{
                         display: 'flex',
-                        justifyContent: 'space-around',
+                        justifyContent: 'space-between',
                       }}
                       key={nanoid()}
                     >
@@ -149,7 +186,7 @@ const ExamPage: React.FC = () => {
                           rows={3}
                           placeholder={'请输入答案'}
                           onBlur={(e: any) => {
-                            handleSubmit(e.target.value, item.id, 1);
+                            handleChangeAnswer(e.target.value, item.id, 1);
                           }}
                         ></TextArea>
                       </div>
@@ -168,7 +205,7 @@ const ExamPage: React.FC = () => {
                     <div
                       style={{
                         display: 'flex',
-                        justifyContent: 'space-around',
+                        justifyContent: 'space-between',
                       }}
                       key={nanoid()}
                     >
@@ -182,7 +219,7 @@ const ExamPage: React.FC = () => {
                           rows={3}
                           placeholder={'请输入答案'}
                           onBlur={(e: any) => {
-                            handleSubmit(e.target.value, item.id, 4);
+                            handleChangeAnswer(e.target.value, item.id, 4);
                           }}
                         ></TextArea>
                       </div>
@@ -192,7 +229,21 @@ const ExamPage: React.FC = () => {
               )
             : '无此类题目'}
         </div>
-        <Button>结束考试</Button>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <Popconfirm
+            title="提交后不能再次修改，您确定提交试卷吗"
+            okText="确认"
+            cancelText="取消"
+            onConfirm={handleSubmitAnswer}
+          >
+            <Button>提交试卷</Button>
+          </Popconfirm>
+        </div>
       </div>
     </div>
   );
