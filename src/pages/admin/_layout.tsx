@@ -58,9 +58,6 @@ const Layout: FC<any> = ({ children }) => {
             selectedKeys={[selectKey]}
           >
             <Menu.Item key="/admin/mockLogin">模拟登陆</Menu.Item>
-            <Menu.Item key="/admin/function">功能模块管理</Menu.Item>
-            <Menu.Item key="/admin/organization">组织机构管理</Menu.Item>
-            <Menu.Item key="/admin/role">角色权限管理</Menu.Item>
             <Menu.Item key="/admin/optionLogs">操作日志管理</Menu.Item>
           </Menu>
         </Sider>

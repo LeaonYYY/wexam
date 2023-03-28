@@ -14,17 +14,26 @@ const Login = () => {
   const [loginRole, setLoginRole] = useState<API.UserRoles>('student');
   const history = useHistory();
   const dispatch = useDispatch();
+  const userMaps: Record<string, number> = {
+    student: 1,
+    teacher: 2,
+    admin: 3,
+  };
   const handleSubmit = async (values: API.LoginProps) => {
-    const res = await login({ ...values });
-    if (res.status === 200) {
+    console.log(userMaps[loginRole]);
+
+    const res = await login(values);
+    console.log(res);
+
+    if (res.code === 0 && res.userLevel === userMaps[loginRole]) {
       dispatch(
         save({
-          username: res.username,
+          username: res.userAccount,
           token: res.token,
         }),
       );
       let path = '';
-      switch (res.role) {
+      switch (res.userLevel) {
         case 1:
           path = '/student';
           break;
@@ -40,7 +49,7 @@ const Login = () => {
       history.push(path);
       message.success('登陆成功');
     } else {
-      message.error('登陆失败');
+      message.error(res.msg);
     }
   };
   return (
@@ -80,7 +89,7 @@ const Login = () => {
             rules={[
               {
                 required: true,
-                message: <LockOutlined className={styles.prefixIcon} />,
+                message: '请输入用户名',
               },
             ]}
           />
@@ -117,7 +126,13 @@ const Login = () => {
         </LoginForm>
         <div className={styles.footer}>
           还没有账号？
-          <a>快速注册</a>
+          <a
+            onClick={() => {
+              history.push('/regist');
+            }}
+          >
+            快速注册
+          </a>
         </div>
       </div>
     </div>

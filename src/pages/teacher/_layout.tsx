@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 
 import styles from './_layout.less';
 import { logout } from '@/models/user';
+import { getInfo } from '@/services/teacher';
 
 const { Sider, Content, Header } = _Layout;
 const Layout: FC<any> = ({ children }) => {
@@ -15,7 +16,12 @@ const Layout: FC<any> = ({ children }) => {
   const [selectKey, setSelectKey] = useState('');
   useEffect(() => {
     setSelectKey(location.pathname);
+    setInfo();
   }, [location]);
+  const setInfo = async () => {
+    const res = await getInfo();
+    localStorage.setItem('userid', res.info.id);
+  };
   const handleMenuSelect = ({ key }: any) => {
     history.push(key);
   };
@@ -58,13 +64,13 @@ const Layout: FC<any> = ({ children }) => {
             selectedKeys={[selectKey]}
           >
             <Menu.Item key="/teacher/notice">通知管理</Menu.Item>
-            <Menu.Item key="/teacher/student">学生管理</Menu.Item>
+
             <Menu.Item key="/teacher/class">班级管理</Menu.Item>
-            <Menu.Item key="/teacher/score">成绩管理</Menu.Item>
+            {/* <Menu.Item key="/teacher/score">成绩管理</Menu.Item> */}
             <Menu.Item key="/teacher/examBase">题库管理</Menu.Item>
             <Menu.Item key="/teacher/examPage">试卷管理</Menu.Item>
-            <Menu.Item key="/teacher/examWatch">线上监考</Menu.Item>
-            <Menu.Item key="/teacher/check">线上批卷</Menu.Item>
+            <Menu.Item key="/teacher/examWatch">考试管理</Menu.Item>
+            <Menu.Item key="/teacher/check">考试批改</Menu.Item>
             <Menu.Item key="/teacher/mine">我的</Menu.Item>
           </Menu>
         </Sider>

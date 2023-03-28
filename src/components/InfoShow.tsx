@@ -12,19 +12,16 @@ const InfoShow: FC<API.StuInfo> = (props) => {
             <Space>用户名:{props.username}</Space>
           </div>
           <div>
-            <Space>姓名:{props.name}</Space>
+            <Space>姓名:{props.username}</Space>
           </div>
           <div>
-            <Space>学校:{props.school}</Space>
+            <Space>学校:{'某某大学'}</Space>
           </div>
           <div>
-            <Space>学院:{props.college}</Space>
+            <Space>学院: {'计算机学院'}</Space>
           </div>
           <div>
-            <Space>班级:{props.class}</Space>
-          </div>
-          <div>
-            <Space>学号/教工号:{props.stuNo}</Space>
+            <Space>学号/教工号:{localStorage.getItem('userid')}</Space>
           </div>
         </div>
       </div>

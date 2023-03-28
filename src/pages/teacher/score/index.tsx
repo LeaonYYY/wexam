@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Table } from 'antd';
 
 import { columns } from './constant';
-import { getScore } from '@/services/teacher';
 
 interface dataType {
   key: string;
@@ -17,12 +16,7 @@ const Notice = () => {
   useEffect(() => {
     getData();
   }, []);
-  const getData = async () => {
-    const res = await getScore();
-    if (res.status === 200) {
-      setData(res.data);
-    }
-  };
+  const getData = async () => {};
   return (
     <div>
       <Table columns={columns} dataSource={data} />

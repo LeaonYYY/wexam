@@ -11,8 +11,9 @@ const Mine = () => {
   }, []);
   const getData = async () => {
     const res = await getInfo();
-    if (res.status === 200) {
-      setInfo(res.data);
+    console.log(res);
+    if (res.code === 0) {
+      setInfo(res.info);
     }
   };
   return (

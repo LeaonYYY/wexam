@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './index.less';
 
-import { getScore } from '@/services/student';
+import { getScores } from '@/services/student';
 import Header from '@/pages/student/score/components/Header';
 import Content from '@/pages/student/score/components/Content';
 
@@ -11,10 +11,8 @@ const Score = () => {
     getData();
   }, []);
   const getData = async () => {
-    const res = await getScore();
-    if (res.status === 200) {
-      setScores(res.data);
-    }
+    const res = await getScores();
+    setScores(res.page);
   };
   return (
     <div className={styles.scoped}>

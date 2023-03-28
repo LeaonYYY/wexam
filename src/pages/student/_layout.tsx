@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 
 import styles from './_layout.less';
 import { logout } from '@/models/user';
+import { getInfo } from '@/services/student';
 
 const { Sider, Content, Header } = _Layout;
 const Layout: FC<any> = ({ children }) => {
@@ -15,9 +16,14 @@ const Layout: FC<any> = ({ children }) => {
   const [selectKey, setSelectKey] = useState('');
   useEffect(() => {
     setSelectKey(location.pathname);
+    setUserId();
   }, [location]);
   const handleMenuSelect = ({ key }: any) => {
     history.push(key);
+  };
+  const setUserId = async () => {
+    const res = await getInfo();
+    localStorage.setItem('userid', res.info.id);
   };
   const handleLogout = () => {
     dispatch(logout());
@@ -58,6 +64,7 @@ const Layout: FC<any> = ({ children }) => {
             selectedKeys={[selectKey]}
           >
             <Menu.Item key="/student/message">通知</Menu.Item>
+            <Menu.Item key="/student/classes">班级</Menu.Item>
             <Menu.Item key="/student/exam">考试</Menu.Item>
             <Menu.Item key="/student/score">成绩</Menu.Item>
             <Menu.Item key="/student/info">我的</Menu.Item>
